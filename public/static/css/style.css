@@ -3,3 +3,31 @@
     margin: 0;
     padding: 0;
 }
+
+main{
+    position: absolute;
+    top: 50%;
+    right: 50%;
+}
+
+#seachlabel {
+    position: relative;
+  }
+  
+  #seachlabel:before {
+    content: "";
+    position: absolute;
+    right: 25px;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: url('../../assets/Rasha\ Challenge\ -\ search\ icon.svg') center / contain no-repeat;
+  }
+  
+  #searchbox {
+    padding: 10px 10px;
+  }
+
+  .hidden{
+    display: none;
+  }
