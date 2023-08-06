@@ -31,3 +31,12 @@ main{
   .hidden{
     display: none;
   }
+
+  .checked{
+    border: 1px solid red;
+  }
+
+  .card>*:hover{
+    cursor: pointer !important;
+  }
+
