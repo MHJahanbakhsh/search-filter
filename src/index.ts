@@ -1,5 +1,10 @@
-interface Iitems {
+interface IResponse {
   data: string[];
+}
+
+interface Iitem {
+  value: string;
+  id: number;
 }
 
 //------------------Elements--------------------------
@@ -12,8 +17,7 @@ const checkBoxes = document.getElementsByClassName(
 ) as HTMLCollection;
 
 //--------------------states-----------------------
-let items: Iitems;
-let selectedItems: string[] = [];
+let selectedItems: Iitem[] = [];
 
 //check local storage on mount
 document.addEventListener("DOMContentLoaded", () => {
@@ -44,29 +48,38 @@ const debounce = (fn: Function, ms = 300) => {
   };
 };
 
-function toggleSelection(title: string) {
-  if (selectedItems.includes(title)) {
-    selectedItems = selectedItems.filter((each) => each !== title);
+function toggleSelection(item: Iitem) {
+  const exist = selectedItems.find((each) => {
+    return each.id === item.id;
+  });
+
+  if (exist) {
+    selectedItems = selectedItems.filter((each) => each.id !== item.id);
   } else {
-    selectedItems.push(title);
+    selectedItems.push(item);
   }
 
   localStorage.setItem("selectedItems", JSON.stringify(selectedItems));
 }
 
-const createNewItemElement = function (taskString: string) {
+const createNewItemElement = function (item: Iitem) {
   const listItem = document.createElement("li");
   listItem.classList.add("card");
+  listItem.id = item.id.toString();
 
   const checkBox = document.createElement("input");
   checkBox.classList.add("check-box");
   checkBox.type = "checkBox";
 
-  if (selectedItems && selectedItems.includes(taskString)) {
+  if (selectedItems && selectedItems.some((each) => each.id == item.id)) {
     checkBox.checked = true;
   }
   listItem.addEventListener("click", (e) => {
-    toggleSelection(listItem.childNodes[1].textContent!);
+    toggleSelection({
+      value: listItem.childNodes[1].textContent!,
+      id: +listItem.id,
+    });
+
     //toggle checkbox
     checkBox.checked = !checkBox.checked;
 
@@ -77,7 +90,7 @@ const createNewItemElement = function (taskString: string) {
 
   const label = document.createElement("label");
   label.classList.add("item-label");
-  label.innerText = taskString;
+  label.innerText = item.value;
 
   // Each element needs appending
   listItem.appendChild(checkBox);
@@ -86,7 +99,7 @@ const createNewItemElement = function (taskString: string) {
   return listItem;
 };
 
-async function getItems(): Promise<Iitems> {
+async function getItems(): Promise<IResponse> {
   const res = await fetch("../public/assets/Rasha Challenge __ Items.json");
   const data = res.json();
   return data;
@@ -103,20 +116,21 @@ for (let i = 0; i < checkBoxes.length; i++) {
 
 //---------------------------------------------
 getItems().then((result) => {
-  items = result;
+  const itemsWithId = result.data.map((each, index) => {
+    return { value: each, id: index };
+  });
 
   selectedItems.forEach((selectedItem) => {
-    items.data.forEach((item) => {
-      if (item === selectedItem) {
+    itemsWithId.forEach((item) => {
+      if (item.id === selectedItem.id) {
         //change the first element of the refrence array
-        items.data.unshift(items.data.splice(items.data.indexOf(item), 1)[0]);
+        itemsWithId.unshift(
+          itemsWithId.splice(itemsWithId.indexOf(item), 1)[0]
+        );
       }
     });
   });
-  items.data.forEach((each) => {
+  itemsWithId.forEach((each) => {
     list?.appendChild(createNewItemElement(each));
   });
 });
-
-
-
