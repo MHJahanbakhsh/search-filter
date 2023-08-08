@@ -14,6 +14,8 @@ const checkBoxes = document.getElementsByClassName(
 //--------------------states-----------------------
 let items: Iitems;
 let selectedItems: string[] = [];
+
+//check local storage on mount
 document.addEventListener("DOMContentLoaded", () => {
   const storedSelectedItems = localStorage.getItem("selectedItems");
   if (storedSelectedItems) {
