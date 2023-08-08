@@ -42,7 +42,7 @@ main {
 
 }
 
-.apply {
+.reset {
   width: 100%;
   background-color: var(--primary);
   color: white;
@@ -52,7 +52,7 @@ main {
   margin-top: 12px;
 }
 
-.apply:hover {
+.reset:hover {
   cursor: pointer;
   background-color: var(--hover);
 }

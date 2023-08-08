@@ -15,11 +15,12 @@ const cards = document.getElementsByClassName("card");
 const checkBoxes = document.getElementsByClassName(
   "check-box"
 ) as HTMLCollection;
+const resetButton = document.querySelector("button") as HTMLElement;
 
 //--------------------states-----------------------
 let selectedItems: Iitem[] = [];
 
-//check local storage on mount
+//check local storage on-mount
 document.addEventListener("DOMContentLoaded", () => {
   const storedSelectedItems = localStorage.getItem("selectedItems");
   if (storedSelectedItems) {
@@ -92,7 +93,6 @@ const createNewItemElement = function (item: Iitem) {
   label.classList.add("item-label");
   label.innerText = item.value;
 
-  // Each element needs appending
   listItem.appendChild(checkBox);
   listItem.appendChild(label);
 
@@ -110,9 +110,13 @@ searchInput.addEventListener(
   "input",
   debounce(() => searchCards())
 );
-for (let i = 0; i < checkBoxes.length; i++) {
-  checkBoxes[i].addEventListener("", function () {});
-}
+
+resetButton.addEventListener("click", () => {
+  localStorage.setItem("selectedItems", `${[]}`);
+  document.querySelectorAll("input").forEach((each) => {
+    each.checked = false;
+  });
+});
 
 //---------------------------------------------
 getItems().then((result) => {
