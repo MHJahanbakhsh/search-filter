@@ -1,42 +1,146 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-main{
-    position: absolute;
-    top: 50%;
-    right: 50%;
+:root {
+  --primary: #67AC5B;
+  --secondary: #F5F5F5;
+  --tertiary: #B3B3B9;
+  --hover: #59974e;
+}
+h2{
+  margin-bottom: 12px;
+}
+
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+main {
+  background-color: var(--secondary);
+  padding: 18px;
+  width: 50%;
+  @media (max-width:480px) {
+    width:75%
+  }
+  @media (max-width:801px) {
+    width:65%
+  }
+
+}
+
+.items {
+  height: 500px;
+  overflow-y: scroll;
+  overflow-y: scroll;
+
+}
+
+.apply {
+  width: 100%;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 12px;
+  margin-top: 12px;
+}
+
+.apply:hover {
+  cursor: pointer;
+  background-color: var(--hover);
 }
 
 #seachlabel {
-    position: relative;
-  }
-  
-  #seachlabel:before {
-    content: "";
-    position: absolute;
-    right: 25px;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    background: url('../../assets/Rasha\ Challenge\ -\ search\ icon.svg') center / contain no-repeat;
-  }
-  
-  #searchbox {
-    padding: 10px 10px;
-  }
+  position: relative;
+}
 
-  .hidden{
-    display: none;
-  }
+#seachlabel:before {
+  content: "";
+  position: absolute;
+  right: 25px;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: url('../../assets/Rasha\ Challenge\ -\ search\ icon.svg') center / contain no-repeat;
+}
 
-  .checked{
-    border: 1px solid red;
-  }
+.searchbox {
+  padding: 6px 12px;
+  width: 100%;
+  margin-bottom: 12px;
+}
 
-  .card>*:hover{
-    cursor: pointer !important;
-  }
+.hidden {
+  display: none;
+}
 
+.card:hover {
+  background-color: var(--primary);
+}
+
+.card {
+  margin-bottom: 6px;
+  padding: 3px;
+}
+
+.card>*,.card {
+  cursor: pointer;
+}
+
+input[type="checkbox"]~label:before {
+  content: '';
+  display: inline-block;
+  cursor: pointer;
+  margin: 2px 10px -2px 0;
+  width: 10px;
+  height: 10px;
+  background: white;
+  outline: 2px solid var(--tertiary);
+  border: 3px solid white;
+  border-radius: 2px;
+  transition: .3s;
+}
+
+input[type="radio"] ~ label:before {
+  border-radius: 50%;
+}
+input[type="checkbox"]:checked ~ label:before {
+  background: var(--primary);
+}
+
+input[type="checkbox"]{
+   opacity: 0;
+   position: absolute;
+}
+
+.item-label:checked+.item-label:after {
+  opacity: 1;
+}
+
+.check-box:checked {
+  accent-color: var(--primary);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--tertiary);
+  border-radius: 10px;
+}

@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (storedSelectedItems) {
     selectedItems = JSON.parse(storedSelectedItems!);
   }
-  console.log({ selectedItems });
 });
 
 //--------------------Functions-------------------
@@ -64,13 +63,11 @@ const createNewItemElement = function (taskString: string) {
   if (selectedItems && selectedItems.includes(taskString)) {
     checkBox.checked = true;
   }
-  checkBox.addEventListener("click", (e) => {
+  listItem.addEventListener("click", (e) => {
     toggleSelection(listItem.childNodes[1].textContent!);
-    console.log(selectedItems);
-    selectedItems.forEach((each, index) => {
-      items.data[index] = each;
-    });
-    console.log(checkBox.checked);
+    //toggle checkbox
+    checkBox.checked = !checkBox.checked;
+
     if (checkBox.checked) {
       checkBox.parentElement?.parentElement?.prepend(checkBox.parentElement);
     }
@@ -102,11 +99,12 @@ for (let i = 0; i < checkBoxes.length; i++) {
   checkBoxes[i].addEventListener("", function () {});
 }
 
+//---------------------------------------------
 getItems().then((result) => {
   items = result;
 
-  items.data.forEach((item) => {
-    selectedItems.forEach((selectedItem) => {
+  selectedItems.forEach((selectedItem) => {
+    items.data.forEach((item) => {
       if (item === selectedItem) {
         //change the first element of the refrence array
         items.data.unshift(items.data.splice(items.data.indexOf(item), 1)[0]);
