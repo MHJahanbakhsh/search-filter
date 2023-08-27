@@ -113,6 +113,7 @@ searchInput.addEventListener(
 
 resetButton.addEventListener("click", () => {
   localStorage.setItem("selectedItems", `${[]}`);
+  selectedItems = [];
   document.querySelectorAll("input").forEach((each) => {
     each.checked = false;
   });
@@ -123,7 +124,9 @@ getItems().then((result) => {
   const itemsWithId = result.data.map((each, index) => {
     return { value: each, id: index };
   });
-
+  itemsWithId.sort((a, b) =>
+    a.value.split("")[0] > b.value.split("")[0] ? 1 : -1
+  );
   selectedItems.forEach((selectedItem) => {
     itemsWithId.forEach((item) => {
       if (item.id === selectedItem.id) {
